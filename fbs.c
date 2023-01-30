@@ -1,39 +1,25 @@
-#include<stdio.h>
-#include<conio.h>
-#include<math.h>
-//#define   f(x)   cos(x)-3*x+1
-//#define   g(x)   (1+cos(x))/3
-#define f(x) ((x)*(x)*(x)+4*(x)*(x)-10)
-#define g(x) sqrt((10-(x)*(x)*(x))/4)
-int main()
-{
-	 int step=1, N;
-	 float x0, x1, e;
-	 printf("Enter initial guess: ");
-	 scanf("%f", &x0);
-	 printf("Enter tolerable error: ");
-	 scanf("%f", &e);
-	 printf("Enter maximum iteration: ");
-	 scanf("%d", &N);
-	 printf("\nStep\tx0\t\tf(x0)\t\tx1\t\tf(x1)\n");
-	 do
-	 {
-		  x1 = g(x0);
-		  printf("%d\t%f\t%f\t%f\t%f\n",step, x0, f(x0), x1, f(x1));
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#define MAXN 10
 
-		  step = step + 1;
+int main (void) {
+  int i;
+  double x[MAXN + 1]={ 0.0,0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0 };
+  double f[MAXN + 1]={ 1.0,1.04,1.16,1.36,1.64,2.0,2.44,2.96,3.56,4.24,5.0 };
+  double df[MAXN + 1];
+ 
+  df[0] = ( f[1] - f[0] )/( x[1] - x[0] );  
+  for (i=1; i< MAXN; i++)
+    df[i] = ( f[i+1] - f[i-1] )/( x[i+1] - x[i-1] );  
+  df[i] = ( f[i] - f[i-1] )/( x[i] - x[i-1] );  
 
-		  if(step>N)
-		  {
-			   printf("Not Convergent.");
-			   exit(0);
-		  }
+  printf("- - - - - - - - - - - - - - - - - - - -\n");
+  printf("  i    x[i]       f[i]       df[i]\n");
+  printf("- - - - - - - - - - - - - - - - - - - -\n");
+  for (i=0; i<= MAXN; i++)
+    printf("%3d %10lf %10lf %10lf\n",i,x[i],f[i],df[i] );
+  printf("- - - - - - - - - - - - - - - - - - - -\n");
 
-		  x0 = x1;
-
-	 }while( fabs(f(x1)) > e);
-	 printf("\nRoot is %f", x1);
-
-	 return(0);
+   return EXIT_SUCCESS;
 }
-
